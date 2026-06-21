@@ -1,0 +1,32 @@
+# 数据集
+datasets/
+
+# 模型权重
+*.pt
+*.onnx
+
+# 训练输出（保留目录结构但不上传权重）
+runs/*/weights/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# 安装残留
+=*
+
+# 其他
+.DS_Store
+*.log
+YOLO-26-CAM/
+
+# runs 中间产物
+runs/**/train_batch*.jpg
+runs/**/val_batch*.jpg
+runs/**/labels.jpg
+runs/**/Box*.png
+runs/**/detect/outputs/
+outputs/eigencam/
+=*
