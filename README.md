@@ -1,6 +1,6 @@
 # 🧠 Brain Tumor Detection with YOLOv8
 
-A systematic ablation study on YOLOv8 for brain tumor detection, exploring data augmentation strategies, class weighting, attention mechanisms (CBAM), and Focal Loss for class imbalance.
+A systematic ablation study on YOLOv8 for brain tumor detection across 6 directions: model scale, data augmentation, class weighting, attention mechanisms (CBAM), loss function (Focal Loss), and regularization (Dropout2d).
 
 ## 📊 Experiment Results
 
