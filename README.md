@@ -18,7 +18,11 @@ A systematic ablation study on YOLOv8 for brain tumor detection across 6 directi
 
 ## 🔑 Key Findings
 
-1. **Data augmentation hurts on MRI data**: Standard augmentations (flip, HSV, mosaic) degrade performance. MRI scans have no natural orientation variance, making geometric augmentations harmful.
+1. **Data augmentation hurts on MRI data** (mAP50: 0.501 → 0.542 after removal): The default YOLOv8 augmentation pipeline contains several operations harmful to medical images:
+   - `mosaic=1.0`: Splices 4 MRI scans into one image, destroying anatomical integrity
+   - `fliplr=0.5`: Brain hemispheres are structurally asymmetric — random flipping tells the model "left brain = right brain"
+   - `hsv_s=0.7 / hsv_v=0.4`: MRI is grayscale; saturation changes are meaningless and brightness distortion corrupts diagnostic signal intensity
+   - `scale=0.5`: Tumor size is a diagnostic feature and should not be randomly altered
 
 2. **Bigger model ≠ better performance**: On this small dataset (~893 training images), YOLOv8s and YOLOv8m overfit significantly compared to YOLOv8n.
 
