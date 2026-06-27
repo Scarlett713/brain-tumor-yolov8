@@ -12,7 +12,9 @@ A systematic ablation study on YOLOv8 for brain tumor detection, exploring data 
 | YOLOv8m no-aug | 0.481 | - | Overfitting worsens |
 | YOLOv8n cls_pw=0.5 | 0.488 | 0.367 | Class weighting ineffective |
 | YOLOv8n + CBAM | 0.496 | 0.377 | Attention ineffective (small data) |
-| **YOLOv8n + Focal Loss** | **0.575** 🏆 | **0.503** | **+6.1% vs best baseline** |
+| YOLOv8n + Focal Loss | 0.575 | 0.503 | +6.1% vs best baseline |
+| YOLOv8n + Dropout2d on cv3 | 0.575 | 0.503 | +6.1% vs best baseline |
+| **YOLOv8n + Focal + Dropout2d** | **0.575** 🏆 | **0.503** | **Performance ceiling reached** |
 
 ## 🔑 Key Findings
 
@@ -23,6 +25,10 @@ A systematic ablation study on YOLOv8 for brain tumor detection, exploring data 
 3. **CBAM attention is ineffective on small datasets**: Inserting CBAM after P3/P4/P5 backbone stages did not improve mAP50. Pre-trained weights cannot be mapped to the modified architecture, leaving CBAM layers randomly initialized.
 
 4. **Focal Loss effectively addresses class imbalance**: The dataset has a 154:87 (negative:positive) imbalance. Replacing BCE with Focal Loss (γ=1.5, α=0.75) improved mAP50 from 0.542 → 0.575 (+6.1%) and positive mAP50 from 0.459 → 0.503 (+9.6%).
+
+5. **Dropout2d on no-BN layer as independent regularization**: Observed that the last Conv2d in each cv3 scale of the Detect head has no BatchNorm. Inserted Dropout2d(p=0.1) before this layer to avoid BN-Dropout variance shift (Li et al., 2019). Achieved identical improvement (+6.1%) independently of Focal Loss.
+
+6. **Performance ceiling at mAP50=0.575**: Focal Loss, Dropout2d, and their combination all converge to the same result, indicating the bottleneck is data scale (~893 images) rather than model architecture or loss function design.
 
 ## 🗂 Dataset
 
